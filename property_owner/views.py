@@ -16,7 +16,7 @@ class Test(generics.GenericAPIView):
     
 class Properties(generics.GenericAPIView):
     def get(self, request):
-        list_properties = PropertyDAO.listProperties(self, user_id=request.user.id)
+        list_properties = PropertyDAO().listProperties(user_id=request.user.id)
         return JsonResponse({"properties": list_properties}, status=status.HTTP_200_OK)
 
 class Property(APIView):
@@ -38,7 +38,7 @@ class Property(APIView):
             serializer.save(propertymanager_id=UserDAO().getUser(user_id=request.user.id))
             return Response({"message": "Property created successfully!"}, status=status.HTTP_201_CREATED)
         
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.erxrors, status=status.HTTP_400_BAD_REQUEST)
     
     # Get a property using the primary key provided.
     def get(self, request, pk=None):

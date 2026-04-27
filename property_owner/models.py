@@ -24,8 +24,20 @@ class WorkOrder(models.Model):
         InProgress = "IP", _("InProgress")
         Completed = "CM", _("Completed")
 
-    property = models.ForeignKey('Property', on_delete=models.CASCADE)
+        def get(input):
+            match input:
+                case "CR":
+                    return Created
+                case "IP":
+                    return InProgress
+                case "CM":
+                    return Completed
+
+    property_id = models.ForeignKey('Property', on_delete=models.CASCADE)
     user_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     created_date = models.DateField(auto_now_add=True)
     last_updated = models.DateField(auto_now_add=True)
     status = models.CharField(max_length=2, choices=Status.choices, default=Status.Created)
+    description = models.TextField(blank=True, null=True)
+
+    # Should include a public order id
